@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run baml-generate && tsc --build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "baml-generate": "baml-cli generate"
+
   },
   "dependencies": {
     "@boundaryml/baml": "^0.84.4",
