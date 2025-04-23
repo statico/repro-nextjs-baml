@@ -56,9 +56,4 @@ GET /\_next/static/webpack/73b37c69507201a8.webpack.hot-update.json 500 in 7ms
 ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
 GET /test 500 in 9ms
-
-```
-
-```
-
 ```
