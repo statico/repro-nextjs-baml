@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# repro-nextjs-baml
 
-## Getting Started
+This is a reproduction showing that [BAML](https://github.com/boundaryml/baml) is not working with Next.js on macOS.
 
-First, run the development server:
+## Environment
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ sw_vers
+ProductName:		macOS
+ProductVersion:		15.4.1
+BuildVersion:		24E263
+
+$ uname -a
+Darwin macbookpro.local 24.4.0 Darwin Kernel Version 24.4.0: Fri Apr 11 18:33:39 PDT 2025; root:xnu-11417.101.15~117/RELEASE_ARM64_T6020 arm64
+
+$ node --version
+v22.14.0
+
+$ pnpm --version
+10.5.2
+
+$ cat package.json | jq '.dependencies'
+{
+  "@boundaryml/baml": "^0.84.4",
+  "next": "15.3.1",
+  "react": "^19.0.0",
+  "react-dom": "^19.0.0"
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Reproduction
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository
+2. Run `pnpm install`
+3. Run `pnpm dev`
+4. Open [http://localhost:3000/test](http://localhost:3000/test)
+5. See the error
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Error
 
-## Learn More
+```
 
-To learn more about Next.js, take a look at the following resources:
+⨯ ./node_modules/.pnpm/@boundaryml+baml-darwin-arm64@0.84.4/node_modules/@boundaryml/baml-darwin-arm64/baml.darwin-arm64.node
+Module parse failed: Unexpected character '�' (1:0)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+(Source code omitted for this binary file)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Import trace for requested module:
+./node_modules/.pnpm/@boundaryml+baml-darwin-arm64@0.84.4/node_modules/@boundaryml/baml-darwin-arm64/baml.darwin-arm64.node
+./node_modules/.pnpm/@boundaryml+baml@0.84.4/node_modules/@boundaryml/baml/native.js
+./node_modules/.pnpm/@boundaryml+baml@0.84.4/node_modules/@boundaryml/baml/index.js
+./baml_client/index.ts
+./src/app/test/route.ts
+GET /\_next/static/webpack/73b37c69507201a8.webpack.hot-update.json 500 in 822ms
+GET /\_next/static/webpack/73b37c69507201a8.webpack.hot-update.json 500 in 7ms
+⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+GET /test 500 in 9ms
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
 
-## Deploy on Vercel
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
